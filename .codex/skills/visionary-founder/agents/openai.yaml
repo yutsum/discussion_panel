@@ -1,0 +1,7 @@
+interface:
+  display_name: "Visionary Founder"
+  short_description: "Finds asymmetric startup opportunities."
+  default_prompt: "Use $visionary-founder to surface non-obvious opportunities, timing, and distribution wedges."
+
+policy:
+  allow_implicit_invocation: true

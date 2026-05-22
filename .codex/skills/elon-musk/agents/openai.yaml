@@ -1,0 +1,7 @@
+interface:
+  display_name: "Elon Musk"
+  short_description: "Applies first-principles, speed, and vertical integration."
+  default_prompt: "Use $elon-musk to challenge assumptions, rethink constraints from first principles, and evaluate bold execution paths."
+
+policy:
+  allow_implicit_invocation: true

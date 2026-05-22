@@ -1,0 +1,7 @@
+interface:
+  display_name: "Steve Jobs"
+  short_description: "Applies focus, taste, and end-to-end product judgment."
+  default_prompt: "Use $steve-jobs to pressure-test a product or strategy for simplicity, focus, differentiation, and quality of experience."
+
+policy:
+  allow_implicit_invocation: true

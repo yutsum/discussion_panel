@@ -1,0 +1,7 @@
+interface:
+  display_name: "Customer Psychologist"
+  short_description: "Examines motivation, trust, and adoption."
+  default_prompt: "Use $customer-psychologist to analyze customer desire, resistance, trust, and adoption triggers."
+
+policy:
+  allow_implicit_invocation: true

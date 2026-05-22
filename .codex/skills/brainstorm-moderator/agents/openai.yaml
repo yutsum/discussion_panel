@@ -1,0 +1,7 @@
+interface:
+  display_name: "Brainstorm Moderator"
+  short_description: "Runs structured multi-persona brainstorming."
+  default_prompt: "Use $brainstorm-moderator to run a multi-persona brainstorming session and produce a decision memo."
+
+policy:
+  allow_implicit_invocation: true

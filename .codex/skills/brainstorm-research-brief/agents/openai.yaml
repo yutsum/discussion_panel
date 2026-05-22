@@ -1,0 +1,7 @@
+interface:
+  display_name: "Brainstorm Research Brief"
+  short_description: "Builds a shared fact base before discussion."
+  default_prompt: "Use $brainstorm-research-brief to gather external sources, create a shared brief, and provide that context to all brainstorming participants."
+
+policy:
+  allow_implicit_invocation: true

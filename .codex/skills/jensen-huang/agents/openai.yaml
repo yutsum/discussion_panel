@@ -1,0 +1,7 @@
+interface:
+  display_name: "Jensen Huang"
+  short_description: "Applies platform, ecosystem, and full-stack strategy."
+  default_prompt: "Use $jensen-huang to evaluate platform leverage, ecosystem strategy, technical ambition, and long-term competitive moats."
+
+policy:
+  allow_implicit_invocation: true

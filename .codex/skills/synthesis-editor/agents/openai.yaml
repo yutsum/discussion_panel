@@ -1,0 +1,7 @@
+interface:
+  display_name: "Synthesis Editor"
+  short_description: "Turns divergence into a decision memo."
+  default_prompt: "Use $synthesis-editor to synthesize conflicting outputs into experiments and next actions."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Strategist Sunzi"
+  short_description: "Applies terrain, timing, and indirect advantage."
+  default_prompt: "Use $strategist-sunzi to assess strategic terrain, indirect moves, and timing."
+
+policy:
+  allow_implicit_invocation: true

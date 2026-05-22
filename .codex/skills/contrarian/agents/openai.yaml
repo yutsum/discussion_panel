@@ -1,0 +1,7 @@
+interface:
+  display_name: "Contrarian"
+  short_description: "Challenges consensus and comfortable narratives."
+  default_prompt: "Use $contrarian to invert assumptions, expose blind spots, and test anti-consensus views."
+
+policy:
+  allow_implicit_invocation: true

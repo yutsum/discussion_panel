@@ -1,0 +1,7 @@
+interface:
+  display_name: "Brainstorm Setup"
+  short_description: "Lets the user choose participants before discussion."
+  default_prompt: "Use $brainstorm-setup to let me choose the brainstorming participants, then start the discussion with only those personas."
+
+policy:
+  allow_implicit_invocation: true

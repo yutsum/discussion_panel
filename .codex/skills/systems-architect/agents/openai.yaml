@@ -1,0 +1,7 @@
+interface:
+  display_name: "Systems Architect"
+  short_description: "Evaluates feasibility and operational risk."
+  default_prompt: "Use $systems-architect to identify architecture risk, complexity cliffs, and minimum viable systems."
+
+policy:
+  allow_implicit_invocation: true

@@ -31,10 +31,13 @@ This skill does not create a native modal dialog by itself. Treat "dialog" as a 
 4. Ask whether the session should start with a shared external research brief.
    - If yes, use `brainstorm-research-brief` first.
    - If no, proceed directly.
-5. Explain that the session will also maintain private participant scratchpads in `brainstorms/<topic-slug>/agent-notes/`.
-6. Optionally ask where to save the transcript. If the user does not care, default to `brainstorms/<topic-slug>/transcript.md`.
-7. Restate the chosen participants, whether a shared brief will be used, the scratchpad directory, and the transcript path.
-8. Hand off to `brainstorm-moderator` with the selected participant list and shared brief path if available.
+5. Explain that the session will also maintain:
+   - private non-analyst scratchpads in `brainstorms/<topic-slug>/agent-notes/`
+   - an analyst workspace in `brainstorms/<topic-slug>/analyst/`
+6. If the user wants `analyst` to use a local document or pasted file, place it in `brainstorms/<topic-slug>/analyst/sources/` before the relevant round and record it in the analyst index.
+7. Optionally ask where to save the transcript. If the user does not care, default to `brainstorms/<topic-slug>/transcript.md`.
+8. Restate the chosen participants, whether a shared brief will be used, the analyst workspace path, the scratchpad directory, and the transcript path.
+9. Hand off to `brainstorm-moderator` with the selected participant list and shared brief path if available.
 
 # Rules
 
@@ -46,6 +49,7 @@ This skill does not create a native modal dialog by itself. Treat "dialog" as a 
 - If the user asks for current-fact grounding, prefer creating a shared brief before the first debate round.
 - If the user wants factual refreshes during the debate, recommend including `analyst` in the participant set.
 - Explain that `analyst` is an on-demand research role, not a normal debating voice.
+- Explain that user-provided files for `analyst` live under the analyst workspace, not the general scratchpad directory.
 
 # Output
 
@@ -58,6 +62,8 @@ Use this structure:
 ## Selected participants
 
 ## Shared brief
+
+## Analyst workspace
 
 ## Scratchpad directory
 

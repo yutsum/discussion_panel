@@ -5,7 +5,11 @@ Store brainstorming outputs, decision memos, and experiment logs in this directo
 Suggested convention:
 
 - one subdirectory per topic
-- `shared-brief.md` for externally researched common context
+- `analyst/brief.md` for externally researched common context
+- `analyst/sources/` for user-provided files and durable source material
+- `analyst/index.md` for the manifest of analyst materials
+- `analyst/notes.md` for extracted analyst notes
+- `analyst/qa-log.md` for append-only answered-question history
 - `agent-notes/` for per-participant private scratchpads
 - `transcript.md` for cumulative multi-turn discussion
 - `notes.md` for raw brainstorming notes or condensed summaries
@@ -17,6 +21,7 @@ Suggested transcript structure:
 - topic
 - transcript file owner path
 - optional shared brief file path
+- optional analyst workspace path
 - optional scratchpad directory path
 - optional appended shared-brief updates when facts are refreshed mid-session
 - append-only round blocks in chronological order
@@ -31,4 +36,12 @@ Suggested scratchpad structure:
 - current stance
 - open questions
 - candidate next move
-- relevant facts from the shared brief
+- relevant facts from the analyst brief
+
+Suggested analyst workspace structure:
+
+- `analyst/brief.md` as the shared fact base
+- `analyst/sources/` for copied user files and durable source documents
+- `analyst/index.md` with origin, date, and why each file matters
+- `analyst/notes.md` for extracted evidence and working notes
+- `analyst/qa-log.md` for append-only answered questions

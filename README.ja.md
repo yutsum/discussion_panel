@@ -17,7 +17,7 @@
 - `steve-jobs`: フォーカス・センス・エンドツーエンドのプロダクト品質を問い詰める
 - `jensen-huang`: プラットフォームレバレッジ・エコシステム・フルスタック優位性を問い詰める
 - `elon-musk`: ファーストプリンシプルによる再設計・スピード・垂直統合を問い詰める
-- `analyst`: ディスカッション中に最新の事実を確認してブリーフを更新する。リサーチが必要な場面を除き、通常の議論ラウンドには参加しない
+- `analyst`: 専用ワークスペースに関連資料を保存し、最新の事実を確認してブリーフを更新する。リサーチが必要な場面を除き、通常の議論ラウンドには参加しない
 - `contrarian`: コンセンサスの前提を崩す
 - `systems-architect`: 運用上の複雑さを問い詰める
 - `customer-psychologist`: モチベーション・信頼・採用行動に注目する
@@ -91,7 +91,15 @@ claude
 5. 各参加者が1ラウンド発言する
 6. ディスカッションを続けるか、後から別途サマリーを依頼する
 
-各参加者は `brainstorms/<topic-slug>/agent-notes/` 以下にプライベートなスクラッチパッドを持てます。これらはコンパクトな作業メモ用であり、トランスクリプトには含まれません。
+`analyst` 以外の参加者は `brainstorms/<topic-slug>/agent-notes/` 以下にプライベートなスクラッチパッドを持てます。これらはコンパクトな作業メモ用であり、トランスクリプトには含まれません。
+
+`analyst` は `brainstorms/<topic-slug>/analyst/` に専用ワークスペースを持ちます:
+
+- `brief.md` — 全参加者が参照する共有ファクトベース
+- `sources/` — ユーザーが渡したファイルや保存対象の資料
+- `index.md` — 保存資料の一覧と由来
+- `notes.md` — analyst 専用の抽出メモ
+- `qa-log.md` — 回答履歴
 
 ### 参加者を先に選ぶ
 
@@ -122,11 +130,13 @@ Topic:
 
 Search for current official and primary sources.
 Create a shared brief for all participants.
-Save it to `brainstorms/saas-growth-strategy/shared-brief.md`.
+Save it to `brainstorms/saas-growth-strategy/analyst/brief.md`.
 Then continue into brainstorming using that shared context.
 ```
 
-議論中にファクトチェックや情報更新が予想される場合は、参加者に `analyst` を含めてください。`analyst` は通常ラウンドでは発言せず、ブリーフ更新・検証依頼・参加者が記憶に頼らず根拠が必要な場面でのみ参加します。
+議論中にファクトチェックや情報更新が予想される場合は、参加者に `analyst` を含めてください。`analyst` は通常ラウンドでは発言せず、ブリーフ更新・検証依頼・資料取り込み・参加者が記憶に頼らず根拠が必要な場面でのみ参加します。
+
+`analyst` にローカル資料を使わせたい場合は、対象ファイルのパスまたは内容を渡し、該当ラウンド前に `brainstorms/<topic-slug>/analyst/sources/` に保存します。
 
 ### 最小プロンプト
 
@@ -143,7 +153,7 @@ Keep it turn-based and simple.
 Each participant should speak in sequence for 2-4 sentences.
 Each participant should refer to prior speakers by name when relevant.
 Do not include moderator lines in the transcript.
-If a claim depends on current company realities, market facts, product facts, financial status, or brand assets, consult the shared brief first and ask `analyst` to refresh it if needed.
+If a claim depends on current company realities, market facts, product facts, financial status, or brand assets, consult the analyst brief first and ask `analyst` to refresh it if needed.
 Record the discussion to `brainstorms/<topic-slug>/transcript.md`.
 After one round, stop and let me optionally reply or continue silently.
 Do not summarize unless I explicitly ask.
@@ -201,21 +211,22 @@ Continue with one more round, append it to the transcript, then stop.
 想定フローは以下のとおりです:
 
 1. ターゲットアウトカムを1文で明確にする
-2. 外部事実が重要な場合は共有ブリーフを読み込む
+2. 外部事実が重要な場合は analyst brief を読み込む
 3. 前回のトランスクリプトがあれば継続する
-4. 参加者ごとのプライベートスクラッチパッドを更新する
+4. 参加者ごとのプライベートスクラッチパッドと analyst ワークスペースを更新する
 5. 各ペルソナのターンを収集する
-6. 事実の更新が必要な場合、または参加者が不確かな記憶に依存しているときは共有ブリーフを再取得する
+6. 事実更新・資料追加・不確かな記憶への依存が起きた場合は analyst brief を再取得する
 7. ラウンドをトランスクリプトに追記する
 8. 関連する場合は参加者が先の発言者を名指しで参照できるようにする
 9. 止まってユーザーがコメントするか次の動きを選べるようにする
 10. 統合は明示的に依頼されたときのみ行う
 
-`analyst` が参加している場合は、通常の議論の声としてではなくオンデマンドのリサーチ機能として扱います。参加者は企業固有の最新の主張について自身の記憶を信頼せず、共有ブリーフを引用するか `analyst` に更新を依頼することが期待されます。
+`analyst` が参加している場合は、通常の議論の声としてではなくオンデマンドのリサーチ機能として扱います。参加者は企業固有の最新の主張について自身の記憶を信頼せず、analyst ワークスペース由来の brief を引用するか `analyst` に更新を依頼することが期待されます。
 
 ライブラウンドの出力形式:
 
 - `Topic`
+- `Analyst workspace`
 - `Shared brief file`
 - `Scratchpad directory`
 - `Transcript file`
@@ -231,7 +242,9 @@ Continue with one more round, append it to the transcript, then stop.
 推奨ファイル構成:
 
 - `transcript.md` — 累積ディスカッション履歴
-- `shared-brief.md` — 共通リサーチコンテキスト
+- `analyst/brief.md` — 共通リサーチコンテキスト
+- `analyst/sources/` — ユーザー提供ファイルと保存資料
+- `analyst/index.md` — analyst の資料台帳
 - `agent-notes/` — 参加者ごとのプライベートスクラッチパッド
 - `notes.md` — 任意の生メモ
 - `decision-memo.md` — 任意の統合アウトプット
@@ -242,7 +255,12 @@ Continue with one more round, append it to the transcript, then stop.
 ```text
 brainstorms/
   strategy-learning-app/
-    shared-brief.md
+    analyst/
+      brief.md
+      index.md
+      notes.md
+      qa-log.md
+      sources/
     agent-notes/
     transcript.md
     notes.md

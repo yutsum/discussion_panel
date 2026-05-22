@@ -1,7 +1,7 @@
 interface:
   display_name: "Analyst"
   short_description: "Refreshes shared facts and updates the brief."
-  default_prompt: "Use $analyst to verify current facts, update the shared brief, and feed source-backed context into the discussion."
+  default_prompt: "Use $analyst to maintain the analyst workspace, ingest relevant source files, answer from stored material first, update the brief, and feed source-backed context into the discussion."
 
 policy:
   allow_implicit_invocation: true

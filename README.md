@@ -17,7 +17,7 @@ It is designed around three parts:
 - `steve-jobs`: pressures focus, taste, and end-to-end product quality
 - `jensen-huang`: pressures platform leverage, ecosystems, and full-stack advantage
 - `elon-musk`: pressures first-principles redesign, speed, and vertical integration
-- `analyst`: refreshes current facts and updates the shared brief mid-discussion, but does not join ordinary debate turns unless research grounding is needed
+- `analyst`: maintains its own workspace, stores relevant source material, refreshes current facts, and updates the shared brief mid-discussion, but does not join ordinary debate turns unless research grounding is needed
 - `contrarian`: breaks consensus assumptions
 - `systems-architect`: pressures operational complexity
 - `customer-psychologist`: focuses on motivation, trust, and adoption
@@ -91,7 +91,15 @@ To request synthesis after the discussion:
 5. Let each participant speak for one round.
 6. Continue the discussion or ask for a separate summary later.
 
-Each participant may keep a private scratchpad under `brainstorms/<topic-slug>/agent-notes/`. These files are for compact working notes and are not copied into the transcript.
+Each non-analyst participant may keep a private scratchpad under `brainstorms/<topic-slug>/agent-notes/`. These files are for compact working notes and are not copied into the transcript.
+
+`analyst` keeps a separate workspace under `brainstorms/<topic-slug>/analyst/`:
+
+- `brief.md` for the shared fact base
+- `sources/` for user-provided files and other durable research materials
+- `index.md` for a manifest of stored materials
+- `notes.md` for analyst-only extraction notes
+- `qa-log.md` for append-only answered-question history
 
 ### Choose participants first
 
@@ -122,11 +130,13 @@ Topic:
 
 Search for current official and primary sources.
 Create a shared brief for all participants.
-Save it to `brainstorms/saas-growth-strategy/shared-brief.md`.
+Save it to `brainstorms/saas-growth-strategy/analyst/brief.md`.
 Then continue into brainstorming using that shared context.
 ```
 
-If you expect fact-checking or source updates during the debate, include `analyst` as a participant. `analyst` stays silent during ordinary rounds and joins only for brief refreshes, verification requests, or when participants need to ground company-specific claims instead of relying on memory.
+If you expect fact-checking or source updates during the debate, include `analyst` as a participant. `analyst` stays silent during ordinary rounds and joins only for brief refreshes, verification requests, user-file ingestion, or when participants need to ground company-specific claims instead of relying on memory.
+
+If you want `analyst` to use a local document, give the file path or pasted content and store it in `brainstorms/<topic-slug>/analyst/sources/` before the relevant round.
 
 ### Minimum prompt
 
@@ -143,7 +153,7 @@ Keep it turn-based and simple.
 Each participant should speak in sequence for 2-4 sentences.
 Each participant should refer to prior speakers by name when relevant.
 Do not include moderator lines in the transcript.
-If a claim depends on current company realities, market facts, product facts, financial status, or brand assets, consult the shared brief first and ask `analyst` to refresh it if needed.
+If a claim depends on current company realities, market facts, product facts, financial status, or brand assets, consult the analyst brief first and ask `analyst` to refresh it if needed.
 Record the discussion to `brainstorms/<topic-slug>/transcript.md`.
 After one round, stop and let me optionally reply or continue silently.
 Do not summarize unless I explicitly ask.
@@ -201,21 +211,22 @@ Useful constraints to add:
 The intended flow is:
 
 1. clarify the target outcome
-2. load a shared brief when external facts matter
+2. load the analyst brief when external facts matter
 3. continue from prior transcript when available
-4. update private per-agent scratchpads
+4. update private per-agent scratchpads and the analyst workspace
 5. collect separate persona turns
-6. refresh the shared brief mid-session when facts need updating or when participants are leaning on unsafe memory
+6. refresh the analyst brief mid-session when facts need updating, when user files are added, or when participants are leaning on unsafe memory
 7. append the round to the transcript
 8. let participants refer to prior speakers by name when relevant
 9. stop and let the user optionally comment or choose the next move
 10. synthesize only on request
 
-When `analyst` is present, treat it as an on-demand research function rather than a standard debating voice. The default expectation is that participants should distrust their own memory on company-specific current claims and either cite the shared brief or ask `analyst` to refresh it.
+When `analyst` is present, treat it as an on-demand research function rather than a standard debating voice. The default expectation is that participants should distrust their own memory on company-specific current claims and either cite the analyst brief or ask `analyst` to refresh it from the analyst workspace.
 
 For a live round, the expected output shape is:
 
 - `Topic`
+- `Analyst workspace`
 - `Shared brief file`
 - `Scratchpad directory`
 - `Transcript file`
@@ -231,7 +242,9 @@ Store each brainstorming session under its own subdirectory in `brainstorms/`.
 Suggested files:
 
 - `transcript.md` for cumulative discussion history
-- `shared-brief.md` for common researched context
+- `analyst/brief.md` for common researched context
+- `analyst/sources/` for user-provided files and stored research material
+- `analyst/index.md` for the analyst's material manifest
 - `agent-notes/` for per-participant private scratchpads
 - `notes.md` for optional raw notes
 - `decision-memo.md` for optional synthesized output
@@ -242,7 +255,12 @@ Example:
 ```text
 brainstorms/
   strategy-learning-app/
-    shared-brief.md
+    analyst/
+      brief.md
+      index.md
+      notes.md
+      qa-log.md
+      sources/
     agent-notes/
     transcript.md
     notes.md

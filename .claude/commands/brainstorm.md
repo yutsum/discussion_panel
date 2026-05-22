@@ -24,13 +24,20 @@ If the user has not already provided a topic and participant list, ask for them 
 
 **Session files** (use `<topic-slug>` = kebab-case version of the topic):
 - Transcript: `brainstorms/<topic-slug>/transcript.md`
-- Scratchpads: `brainstorms/<topic-slug>/agent-notes/<persona>.md`
-- Shared brief: `brainstorms/<topic-slug>/brief.md`
+- Scratchpads: `brainstorms/<topic-slug>/agent-notes/<persona>.md` for non-analyst personas
+- Analyst workspace: `brainstorms/<topic-slug>/analyst/`
+- Shared brief: `brainstorms/<topic-slug>/analyst/brief.md`
+- Analyst index: `brainstorms/<topic-slug>/analyst/index.md`
+- Analyst notes: `brainstorms/<topic-slug>/analyst/notes.md`
+- Analyst Q&A log: `brainstorms/<topic-slug>/analyst/qa-log.md`
+- Analyst sources: `brainstorms/<topic-slug>/analyst/sources/`
 
 On session start:
 1. Create the directory structure if it does not exist.
-2. If a transcript already exists, summarize its current state in 3–5 bullets before continuing.
-3. Initialize empty scratchpad files for each active persona if they do not exist.
+2. If `brainstorms/<topic-slug>/shared-brief.md` exists from an older session, treat it as seed material and migrate or mirror its useful content into `brainstorms/<topic-slug>/analyst/brief.md` before continuing.
+3. If a transcript already exists, summarize its current state in 3–5 bullets before continuing.
+4. Initialize empty scratchpad files for each active non-analyst persona if they do not exist.
+5. Initialize analyst workspace files if they do not exist.
 
 ## How to spawn a persona agent
 
@@ -49,7 +56,7 @@ SESSION CONTEXT
 
 Topic: $TOPIC
 
-Shared brief (contents of brainstorms/$TOPIC_SLUG/brief.md, or "none" if absent):
+Shared brief (contents of brainstorms/$TOPIC_SLUG/analyst/brief.md, or "none" if absent):
 $BRIEF_CONTENT
 
 Your private scratchpad — your working notes from all previous rounds
@@ -97,10 +104,18 @@ Use the same Agent prompt template above, but include this additional instructio
 You are analyst. Your job this turn is NOT to argue a strategic position.
 Your job is to:
 1. Identify which specific claims in the transcript need verification
-2. State what you know with confidence vs. what is uncertain
-3. Note any recent changes or gaps that matter for the debate
-4. Append a brief factual update to: brainstorms/$TOPIC_SLUG/brief.md
-5. Return a concise fact-check summary (3–6 bullet points) that other personas can use
+2. Check the analyst workspace first:
+   - brainstorms/$TOPIC_SLUG/analyst/brief.md
+   - brainstorms/$TOPIC_SLUG/analyst/index.md
+   - brainstorms/$TOPIC_SLUG/analyst/notes.md
+   - relevant files under brainstorms/$TOPIC_SLUG/analyst/sources/
+3. State what you know with confidence vs. what is uncertain
+4. Note any recent changes or gaps that matter for the debate
+5. Append a brief factual update to: brainstorms/$TOPIC_SLUG/analyst/brief.md
+6. Append a compact working update to: brainstorms/$TOPIC_SLUG/analyst/notes.md
+7. Append the answered question and source basis to: brainstorms/$TOPIC_SLUG/analyst/qa-log.md
+8. If the user supplied a file for analyst, ensure it is stored under brainstorms/$TOPIC_SLUG/analyst/sources/ and registered in index.md
+9. Return a concise fact-check summary (3–6 bullet points) that other personas can use
 
 Format:
 - Verified: [fact]
@@ -113,11 +128,12 @@ Format:
 1. Read SKILL.md for each active persona.
 2. Read the current transcript (empty on Round 1).
 3. Read each persona's scratchpad (empty on Round 1).
-4. Read the shared brief (empty on Round 1).
-5. Spawn all active non-analyst persona agents **in parallel** (single message, multiple Agent tool calls).
-6. Wait for all agents to complete.
-7. Collect each agent's returned text (their spoken turn).
-8. Append the round to the transcript file using this format:
+4. Read the shared brief from `brainstorms/$TOPIC_SLUG/analyst/brief.md` (empty on Round 1).
+5. If the user provides a file path or pasted content for analyst, save it under `brainstorms/$TOPIC_SLUG/analyst/sources/`, update `index.md`, and let analyst ingest it before normal persona turns.
+6. Spawn all active non-analyst persona agents **in parallel** (single message, multiple Agent tool calls).
+7. Wait for all agents to complete.
+8. Collect each agent's returned text (their spoken turn).
+9. Append the round to the transcript file using this format:
 
 ```
 ---
@@ -129,7 +145,7 @@ Format:
 - **persona-name:** [their spoken turn text]
 ```
 
-9. Present the user with options (see below).
+10. Present the user with options (see below).
 
 ## After each round — user options
 
@@ -139,6 +155,7 @@ Always end your turn with a "## ユーザーオプション" section offering:
 - **発言 (Speak):** The user adds their own comment, which is included in the next round's transcript context
 - **制約追加 (Add constraint):** User adds a new condition that all personas must respect
 - **analystに確認 (Ask analyst):** Trigger an analyst fact-check on a specific claim
+- **analystに資料追加 (Give analyst a file):** Add a user file to `brainstorms/<topic-slug>/analyst/sources/`
 - **サマリー (Summary):** Hand the transcript to `synthesis-editor` to produce a decision memo
 
 Do **not** emit a decision memo, executive summary, or recommendation unless the user explicitly requests it.
@@ -151,6 +168,7 @@ Do **not** emit a decision memo, executive summary, or recommendation unless the
 - Do not put moderator commentary in the transcript. Only persona turns and optional user turns belong there.
 - Transcript is append-only. Never reorder or delete prior content.
 - Each persona agent only receives its own scratchpad — never another persona's.
+- Non-analyst personas do not use raw analyst source files as shared memory; they rely on the analyst brief unless the user explicitly asks otherwise.
 - When the user speaks, include their comment verbatim in the transcript before the next persona round.
 
 ## Synthesis

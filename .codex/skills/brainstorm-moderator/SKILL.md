@@ -74,6 +74,8 @@ Treat the brainstorm as a turn-based discussion log, not a one-shot answer.
 
 - Treat personas as roleplay characters with stable decision lenses.
 - Let the voice feel recognizably different across participants, but keep the substance analytical.
+- For personas modeled on real people, allow occasional brief references to relevant public track-record episodes when those references sharpen the argument.
+- Keep those references subordinate to the actual argument; they should not replace analysis or turn into biography recital.
 - Preserve disagreement where it contains decision value.
 - Distinguish facts, assumptions, and hypotheses when useful, but do not turn every round into an analysis report.
 - If a persona is unavailable, state that gap and continue with the remaining ones.
@@ -92,6 +94,7 @@ Treat the brainstorm as a turn-based discussion log, not a one-shot answer.
 - Respect the selected participant set and speaking order for the current session.
 - Treat user participation as optional. If the user says nothing substantive, continue with the transcript showing no user comment for that turn.
 - Do not reduce the personas to catchphrases, parody, or empty imitation.
+- Do not let past-experience references become name-dropping, mythmaking, or invented anecdote.
 - Prefer a simple append-only transcript format over nested report sections.
 - Scratchpads are for compact working notes, not unrestricted stream-of-consciousness.
 - Scratchpads may summarize assumptions, tensions, candidate claims, and unresolved questions.

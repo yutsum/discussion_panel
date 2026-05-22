@@ -48,6 +48,39 @@ prompts/
 
 ## How to use
 
+### Claude Code (CLI)
+
+Claude Code reads `.codex/skills/` automatically. Start a session in this directory:
+
+```sh
+cd /path/to/discussion_panel
+claude
+```
+
+Then use the `/brainstorm` slash command:
+
+```text
+/brainstorm Should a B2B SaaS startup prioritize enterprise sales or self-serve growth?
+```
+
+You can name participants inline:
+
+```text
+/brainstorm [topic] with steve-jobs, jensen-huang, elon-musk, analyst
+```
+
+Or let the skill pick the default set (`visionary-founder`, `analyst`, `contrarian`, `systems-architect`, `customer-psychologist`, `strategist-sunzi`).
+
+Each persona runs as a separate isolated sub-agent with its own context. The moderator coordinates turns, appends rounds to `brainstorms/<topic-slug>/transcript.md`, and stops after each round so you can reply, redirect, or continue silently.
+
+To request synthesis after the discussion:
+
+```text
+/brainstorm synthesize the transcript at brainstorms/saas-growth-strategy/transcript.md
+```
+
+### Codex / VS Code with Codex enabled
+
 1. Open this repository in Codex or VS Code with Codex enabled.
 2. Start a chat in the repo.
 3. Either:

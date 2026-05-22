@@ -41,7 +41,7 @@ On session start:
 
 ## How to spawn a persona agent
 
-For each active non-analyst persona, read its SKILL.md, then call the Agent tool with the following prompt. **Run all non-analyst personas in parallel (multiple Agent tool calls in a single message).**
+For each active non-analyst persona, read its SKILL.md, then call the Agent tool with the following prompt. **Run non-analyst personas sequentially in speaking order, not in parallel. Reuse the same agent for the same persona across rounds whenever possible.**
 
 ```
 PERSONA AGENT PROMPT (fill in all $VARIABLES before sending):
@@ -64,7 +64,7 @@ Your private scratchpad — your working notes from all previous rounds
 $SCRATCHPAD_CONTENT
 
 Discussion transcript so far
-(full contents of brainstorms/$TOPIC_SLUG/transcript.md, or empty if Round 1):
+(the full prior transcript plus any already-completed participant turns from the current round):
 $TRANSCRIPT_CONTENT
 
 ---
@@ -95,6 +95,7 @@ Spawn `analyst` **only** when:
 - Another persona explicitly asks analyst to verify a claim
 - The user requests a fact-check or brief update
 - Company-specific claims (brand, financials, market position) are becoming central
+- A factual claim is becoming a live point of the current discussion and the next strategic turn depends on whether it is true
 
 Analyst does **not** speak during ordinary debate rounds.
 
@@ -130,10 +131,13 @@ Format:
 3. Read each persona's scratchpad (empty on Round 1).
 4. Read the shared brief from `brainstorms/$TOPIC_SLUG/analyst/brief.md` (empty on Round 1).
 5. If the user provides a file path or pasted content for analyst, save it under `brainstorms/$TOPIC_SLUG/analyst/sources/`, update `index.md`, and let analyst ingest it before normal persona turns.
-6. Spawn all active non-analyst persona agents **in parallel** (single message, multiple Agent tool calls).
-7. Wait for all agents to complete.
-8. Collect each agent's returned text (their spoken turn).
-9. Append the round to the transcript file using this format:
+6. Reuse the existing agent for the first active non-analyst persona if one already exists for this session; otherwise spawn it.
+7. Wait for it to complete.
+8. Append that returned spoken turn to a temporary round-in-progress transcript.
+9. Reuse or spawn the next persona agent with the updated round-in-progress transcript.
+10. Repeat until every active non-analyst persona has spoken once.
+11. Keep persona agents alive for later rounds unless they need replacement.
+12. Append the completed round to the transcript file using this format:
 
 ```
 ---
@@ -145,7 +149,7 @@ Format:
 - **persona-name:** [their spoken turn text]
 ```
 
-10. Present the user with options (see below).
+13. Present the user with options (see below).
 
 ## After each round — user options
 

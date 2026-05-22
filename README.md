@@ -71,7 +71,7 @@ You can name participants inline:
 
 Or let the skill pick the default set (`visionary-founder`, `analyst`, `contrarian`, `systems-architect`, `customer-psychologist`, `strategist-sunzi`).
 
-Each persona runs as a separate isolated sub-agent with its own context. The moderator coordinates turns, appends rounds to `brainstorms/<topic-slug>/transcript.md`, and stops after each round so you can reply, redirect, or continue silently.
+Each persona runs as a separate isolated sub-agent with its own context. Each participant sees only the transcript, the shared brief when present, its own persona instructions, and its own scratchpad. Within a round, the moderator runs participants sequentially so later speakers can react to earlier speakers from the same round via a temporary round-in-progress transcript. Across rounds, the moderator should usually reuse the same sub-agent for the same participant to avoid repeated spawn cost, while still sending fresh explicit context each round. The moderator then appends the finished round to `brainstorms/<topic-slug>/transcript.md` and stops so you can reply, redirect, or continue silently.
 
 To request synthesis after the discussion:
 
@@ -91,7 +91,7 @@ To request synthesis after the discussion:
 5. Let each participant speak for one round.
 6. Continue the discussion or ask for a separate summary later.
 
-Each non-analyst participant may keep a private scratchpad under `brainstorms/<topic-slug>/agent-notes/`. These files are for compact working notes and are not copied into the transcript.
+Each non-analyst participant may keep a private scratchpad under `brainstorms/<topic-slug>/agent-notes/`. These files are for compact working notes and are not copied into the transcript. One participant must never read another participant's scratchpad.
 
 `analyst` keeps a separate workspace under `brainstorms/<topic-slug>/analyst/`:
 
@@ -134,7 +134,7 @@ Save it to `brainstorms/saas-growth-strategy/analyst/brief.md`.
 Then continue into brainstorming using that shared context.
 ```
 
-If you expect fact-checking or source updates during the debate, include `analyst` as a participant. `analyst` stays silent during ordinary rounds and joins only for brief refreshes, verification requests, user-file ingestion, or when participants need to ground company-specific claims instead of relying on memory.
+If you expect fact-checking or source updates during the debate, include `analyst` as a participant. `analyst` stays silent during ordinary rounds and joins only for brief refreshes, verification requests, user-file ingestion, or when a factual claim becomes a live point of the discussion and needs research before the debate continues.
 
 If you want `analyst` to use a local document, give the file path or pasted content and store it in `brainstorms/<topic-slug>/analyst/sources/` before the relevant round.
 
@@ -214,7 +214,7 @@ The intended flow is:
 2. load the analyst brief when external facts matter
 3. continue from prior transcript when available
 4. update private per-agent scratchpads and the analyst workspace
-5. collect separate persona turns
+5. collect separate persona turns from isolated participants in speaking order
 6. refresh the analyst brief mid-session when facts need updating, when user files are added, or when participants are leaning on unsafe memory
 7. append the round to the transcript
 8. let participants refer to prior speakers by name when relevant
@@ -222,6 +222,8 @@ The intended flow is:
 10. synthesize only on request
 
 When `analyst` is present, treat it as an on-demand research function rather than a standard debating voice. The default expectation is that participants should distrust their own memory on company-specific current claims and either cite the analyst brief or ask `analyst` to refresh it from the analyst workspace.
+
+Important: moderator-side suggestions such as "next we can compare these on X/Y/Z" are not participant-visible context by default. If the user only says `continue`, the next round should be grounded only in the transcript, shared brief, and each participant's own scratchpad. However, once a participant has spoken within the current round, that spoken turn is visible to later participants in the same round through the temporary round-in-progress transcript.
 
 For a live round, the expected output shape is:
 
